@@ -59,7 +59,11 @@ function updateCart() {
                         <button class="remove-item" onclick="removeFromCart(${index})">Remove</button>
                     </div>
                     <div class="cart-item-details">
-                        <span>Qty: ${item.quantity}</span>
+                        <div class="quantity-controls">
+                            <button class="qty-btn" onclick="decreaseQuantity(${index})">-</button>
+                            <span class="quantity-value">${item.quantity}</span>
+                            <button class="qty-btn" onclick="increaseQuantity(${index})">+</button>
+                        </div>
                         <span class="cart-item-price">₱${item.price * item.quantity}</span>
                     </div>
                 </div>
@@ -72,6 +76,22 @@ function updateCart() {
 // Remove item from cart
 function removeFromCart(index) {
     cart.splice(index, 1);
+    updateCart();
+}
+
+// Increase quantity
+function increaseQuantity(index) {
+    cart[index].quantity += 1;
+    updateCart();
+}
+
+// Decrease quantity
+function decreaseQuantity(index) {
+    if (cart[index].quantity > 1) {
+        cart[index].quantity -= 1;
+    } else {
+        cart.splice(index, 1);
+    }
     updateCart();
 }
 
