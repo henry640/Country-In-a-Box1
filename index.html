@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Country in a Box - Food Delivery</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1>🍱 Country in a Box</h1>
+        <p>Experience the World, One Bite at a Time!</p>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#menu">Menu</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a href="#" class="cart-link" onclick="toggleCart(); return false;">🛒 Cart (<span id="cart-count">0</span>)</a>
+    </nav>
+
+    <!-- Cart Sidebar -->
+    <div id="cart-sidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h2>Your Cart</h2>
+            <button class="close-cart" onclick="toggleCart()">✖</button>
+        </div>
+        <div id="cart-items" class="cart-items">
+            <p class="empty-cart">Your cart is empty</p>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <strong>Subtotal:</strong> <span id="cart-subtotal">₱0</span>
+            </div>
+            <button class="checkout-btn" onclick="proceedToCheckout()">Proceed to Checkout</button>
+            <button class="clear-cart-btn" onclick="clearCart()">Clear Cart</button>
+        </div>
+    </div>
+
+    <!-- Receipt Modal -->
+    <div id="receipt-modal" class="modal">
+        <div class="modal-content">
+            <div class="receipt">
+                <div class="receipt-header">
+                    <h2>🍱 Country in a Box</h2>
+                    <p>Official Receipt</p>
+                </div>
+                <div class="receipt-items" id="receipt-items"></div>
+                <div class="receipt-summary">
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span id="receipt-subtotal">₱0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Delivery Fee:</span>
+                        <span>₱50.00</span>
+                    </div>
+                    <div class="summary-row total">
+                        <strong>Total Amount:</strong>
+                        <strong id="receipt-total">₱0.00</strong>
+                    </div>
+                </div>
+                <div class="receipt-footer">
+                    <p>Thank you for your order!</p>
+                    <p class="receipt-note">Your order will be delivered shortly</p>
+                </div>
+                <div class="receipt-actions">
+                    <button class="place-order-btn" onclick="placeOrder()">Place Order</button>
+                    <button class="close-receipt-btn" onclick="closeReceipt()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Clear Cart Confirmation Modal -->
+    <div id="clear-cart-modal" class="modal">
+        <div class="modal-content">
+            <div class="confirmation">
+                <h2>Clear all items from cart?</h2>
+                <div class="receipt-actions">
+                    <button class="place-order-btn" onclick="confirmClearCart()">OK</button>
+                    <button class="close-receipt-btn" onclick="closeClearCartModal()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Confirmation Modal -->
+    <div id="confirmation-modal" class="modal">
+        <div class="modal-content">
+            <div class="confirmation">
+                <div class="confirmation-icon">✓</div>
+                <h2>Order Confirmed!</h2>
+                <p>Thank you for your purchase!</p>
+                <p class="confirmation-message">Your order has been placed successfully and will be delivered shortly.</p>
+                <button class="ok-btn" onclick="closeConfirmation()">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Home Section -->
+    <section id="home">
+        <div class="hero">
+            <h2>Welcome to Country in a Box!</h2>
+            <p>Get ready to travel the world one delicious bite at a time.</p>
+            <p>From Filipino classics to international flavors!</p>
+            <button onclick="scrollToMenu()">Explore Menu</button>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu">
+        <h2>Our Menu</h2>
+        
+        <div class="menu-category">
+            <h3>Filipino Favorites</h3>
+            <div class="food-container">
+                <div class="food-card">
+                    <img src="Menu Source/Tapa Breakfast Box.png" alt="Tapa Breakfast Box">
+                    <h4>Tapa Breakfast Box</h4>
+                    <p>Classic Filipino breakfast</p>
+                    <p class="price">₱150</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="Menu Source/Chicken Adobo Bowl.png" alt="Chicken Adobo Bowl">
+                    <h4>Chicken Adobo Bowl</h4>
+                    <p>Traditional Filipino dish</p>
+                    <p class="price">₱160</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="Menu Source/Pork Sisig Rice Box.png" alt="Pork Sisig Rice Box">
+                    <h4>Pork Sisig Rice Box</h4>
+                    <p>Savory and delicious</p>
+                    <p class="price">₱165</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-category">
+            <h3>Asian Flavors</h3>
+            <div class="food-container">
+                <div class="food-card">
+                    <img src="Menu Source/Teriyaki Ckn Bento.png" alt="Teriyaki Chicken Bento">
+                    <h4>Teriyaki Chicken Bento</h4>
+                    <p>From Japan</p>
+                    <p class="price">₱180</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="Menu Source/Beef Bulgogi Bowl.png" alt="Beef Bulgogi Bowl">
+                    <h4>Beef Bulgogi Bowl</h4>
+                    <p>From Korea</p>
+                    <p class="price">₱195</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="Menu Source/Pad Thai Box.png" alt="Pad Thai Box">
+                    <h4>Pad Thai Box</h4>
+                    <p>From Thailand</p>
+                    <p class="price">₱185</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-category">
+            <h3>Desserts</h3>
+            <div class="food-container">
+                <div class="food-card">
+                    <img src="Menu Source/Halo Halo.png" alt="Halo-Halo">
+                    <h4>Halo-Halo</h4>
+                    <p>Filipino sweet treat</p>
+                    <p class="price">₱80</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="Menu Source/Leche Flan.png" alt="Leche Flan">
+                    <h4>Leche Flan</h4>
+                    <p>Smooth and creamy</p>
+                    <p class="price">₱70</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="Menu Source/Mango Float.png" alt="Mango Float">
+                    <h4>Mango Float</h4>
+                    <p>Sweet and refreshing</p>
+                    <p class="price">₱75</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <h2>About Us</h2>
+        <div class="about-content">
+            <p>Country in a Box was born from a simple idea: travel the world through food without leaving your home!</p>
+            <p>We bring authentic flavors from around the world straight to your table.</p>
+            
+            <div class="stats">
+                <div class="stat-box">
+                    <h3>10,000+</h3>
+                    <p>Happy Customers</p>
+                </div>
+                <div class="stat-box">
+                    <h3>63</h3>
+                    <p>Signature Dishes</p>
+                </div>
+                <div class="stat-box">
+                    <h3>8</h3>
+                    <p>Countries</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2>Get in Touch</h2>
+        <div class="contact-info">
+            <div class="contact-item">
+                <h4>📍 Location</h4>
+                <p>Philippines</p>
+            </div>
+            <div class="contact-item">
+                <h4>📧 Email</h4>
+                <p>info@countryinabox.com</p>
+            </div>
+            <div class="contact-item">
+                <h4>⏰ Hours</h4>
+                <p>Mon - Sun: 8:00 AM - 9:00 PM</p>
+            </div>
+        </div>
+
+        <div class="contact-form">
+            <h3>Send us a Message</h3>
+            <form>
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <textarea placeholder="Your Message" rows="5" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Contact Form Success Modal -->
+    <div id="contact-success-modal" class="modal">
+        <div class="modal-content">
+            <div class="confirmation">
+                <div class="confirmation-icon">✓</div>
+                <h2>Thank You!</h2>
+                <p class="confirmation-message">We'll respond shortly</p>
+                <button class="ok-btn" onclick="closeContactModal()">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Country in a Box. All rights reserved.</p>
+        <p>Experience the World, One Bite at a Time!</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

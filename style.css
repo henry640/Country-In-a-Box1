@@ -1,0 +1,643 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f4f4f4;
+}
+
+/* Header */
+header {
+    background: linear-gradient(rgba(255, 107, 107, 0.8), rgba(255, 107, 107, 0.8)),
+     url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200&h=400&fit=crop');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+}
+
+header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+header p {
+    font-size: 1.2em;
+}
+
+/* Navigation */
+nav {
+    background-color: #333;
+    padding: 15px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    margin: 0 5px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+nav a:hover {
+    background-color: #ff6b6b;
+}
+
+.cart-link {
+    background-color: #4CAF50;
+    font-weight: bold;
+}
+
+.cart-link:hover {
+    background-color: #45a049 !important;
+}
+
+/* Cart Sidebar */
+.cart-sidebar {
+    position: fixed;
+    right: -400px;
+    top: 0;
+    width: 400px;
+    height: 100%;
+    background-color: white;
+    box-shadow: -2px 0 10px rgba(0,0,0,0.3);
+    transition: right 0.3s ease;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-sidebar.active {
+    right: 0;
+}
+
+.cart-header {
+    background-color: #ff6b6b;
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cart-header h2 {
+    margin: 0;
+    color: white;
+}
+
+.close-cart {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.cart-items {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.empty-cart {
+    text-align: center;
+    color: #999;
+    margin-top: 50px;
+}
+
+.cart-item {
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border-left: 4px solid #ff6b6b;
+}
+
+.cart-item-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.cart-item-name {
+    font-weight: bold;
+}
+
+.remove-item {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.cart-item-details {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cart-item-price {
+    color: #ff6b6b;
+    font-weight: bold;
+}
+
+.cart-footer {
+    padding: 20px;
+    border-top: 2px solid #ddd;
+    background-color: #f9f9f9;
+}
+
+.cart-total {
+    font-size: 1.3em;
+    margin-bottom: 15px;
+    text-align: right;
+}
+
+.checkout-btn {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 15px;
+    font-size: 1.1em;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.checkout-btn:hover {
+    background-color: #45a049;
+}
+
+.clear-cart-btn {
+    width: 100%;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Receipt Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal.active {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 0;
+    border-radius: 10px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 90%;
+    overflow-y: auto;
+}
+
+.receipt {
+    padding: 30px;
+}
+
+.receipt-header {
+    text-align: center;
+    border-bottom: 2px dashed #ddd;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+.receipt-header h2 {
+    color: #ff6b6b;
+    margin-bottom: 10px;
+}
+
+.receipt-items {
+    margin-bottom: 20px;
+}
+
+.receipt-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.receipt-summary {
+    border-top: 2px solid #ddd;
+    padding-top: 15px;
+    margin-top: 15px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+}
+
+.summary-row.total {
+    font-size: 1.3em;
+    border-top: 2px solid #ddd;
+    margin-top: 10px;
+    padding-top: 10px;
+    color: #ff6b6b;
+}
+
+.receipt-footer {
+    text-align: center;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px dashed #ddd;
+}
+
+.receipt-note {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.receipt-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.place-order-btn, .close-receipt-btn {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.place-order-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.place-order-btn:hover {
+    background-color: #45a049;
+}
+
+.print-btn, .close-receipt-btn {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.print-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.close-receipt-btn {
+    background-color: #666;
+    color: white;
+}
+
+/* Confirmation Modal */
+.confirmation {
+    padding: 40px;
+    text-align: center;
+}
+
+.confirmation-icon {
+    width: 80px;
+    height: 80px;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3em;
+    margin: 0 auto 20px;
+}
+
+.confirmation h2 {
+    color: #4CAF50;
+    margin-bottom: 15px;
+    font-size: 2em;
+}
+
+.confirmation p {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+}
+
+.confirmation-message {
+    color: #666;
+    font-size: 1em;
+    margin-bottom: 30px;
+}
+
+.ok-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 15px 50px;
+    font-size: 1.1em;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.ok-btn:hover {
+    background-color: #45a049;
+}
+
+/* Sections */
+section {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+section h2 {
+    color: #ff6b6b;
+    margin-bottom: 20px;
+    font-size: 2em;
+    text-align: center;
+}
+
+/* Hero Section */
+.hero {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.hero h2 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+}
+
+.hero button {
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.1em;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+.hero button:hover {
+    background-color: #ff5252;
+}
+
+/* Menu Section */
+.menu-category {
+    margin-bottom: 40px;
+}
+
+.menu-category h3 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    border-bottom: 2px solid #ff6b6b;
+    padding-bottom: 10px;
+}
+
+.food-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.food-card {
+    background-color: #fff;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    padding: 0;
+    width: 250px;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    overflow: hidden;
+}
+
+.food-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.food-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 2px solid #ddd;
+}
+
+.food-card h4 {
+    color: #333;
+    margin: 15px 10px 10px;
+    font-size: 1.2em;
+}
+
+.food-card p {
+    color: #666;
+    margin: 0 10px 10px;
+}
+
+.food-card .price {
+    color: #ff6b6b;
+    font-size: 1.3em;
+    font-weight: bold;
+    margin: 15px 10px;
+}
+
+.add-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.2s, transform 0.2s;
+    margin: 15px 10px 20px;
+    width: calc(100% - 20px);
+}
+
+.add-btn:hover {
+    background-color: #45a049;
+}
+
+.add-btn:active {
+    transform: scale(0.95);
+}
+
+/* About Section */
+.about-content {
+    text-align: center;
+}
+
+.about-content p {
+    font-size: 1.1em;
+    margin-bottom: 15px;
+    line-height: 1.8;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 40px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.stat-box {
+    background-color: #ff6b6b;
+    color: white;
+    padding: 30px;
+    border-radius: 10px;
+    flex: 1;
+    min-width: 200px;
+    text-align: center;
+}
+
+.stat-box h3 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.stat-box p {
+    font-size: 1.1em;
+}
+
+/* Contact Section */
+.contact-info {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.contact-item {
+    text-align: center;
+    flex: 1;
+    min-width: 200px;
+}
+
+.contact-item h4 {
+    color: #ff6b6b;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+}
+
+.contact-item p {
+    color: #666;
+}
+
+.contact-form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.contact-form h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    font-family: Arial, sans-serif;
+}
+
+.contact-form button {
+    width: 100%;
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 1.1em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.contact-form button:hover {
+    background-color: #ff5252;
+}
+
+/* Footer */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+}
+
+footer p {
+    margin: 5px 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2em;
+    }
+    
+    nav a {
+        display: block;
+        margin: 5px 0;
+    }
+    
+    .food-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .stats {
+        flex-direction: column;
+    }
+    
+    .contact-info {
+        flex-direction: column;
+    }
+}
