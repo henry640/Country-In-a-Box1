@@ -170,9 +170,14 @@ function placeOrder() {
     const deliveryFee = 50;
     const total = subtotal + deliveryFee;
     
+    // Generate simple order ID
+    let nextOrderNumber = (localStorage.getItem('nextOrderNumber') || 1000);
+    nextOrderNumber = parseInt(nextOrderNumber) + 1;
+    localStorage.setItem('nextOrderNumber', nextOrderNumber);
+    
     // Create order object
     const order = {
-        id: Date.now(),
+        id: nextOrderNumber,
         date: new Date().toISOString(),
         items: [...cart],
         subtotal: subtotal,
