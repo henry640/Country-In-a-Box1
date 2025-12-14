@@ -287,7 +287,7 @@ function cancelOrder(index) {
         return;
     }
     
-    if (confirm(`Are you sure you want to cancel Order #${order.id}?\n\n💰 Full refund will be processed within 3-5 business days.`)) {
+    if (confirm(`Are you sure you want to cancel Order #${order.id}?`)) {
         orders[index].status = 'Cancelled';
         localStorage.setItem('orders', JSON.stringify(orders));
         closeMyOrders();
