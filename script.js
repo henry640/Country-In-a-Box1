@@ -20,69 +20,9 @@ function scrollToMenu() {
 
 // Cart functionality
 let cart = [];
-let orders = JSON.parse(localStorage.getItem('orders')) || [];
-
-// Update orders display
-function updateOrdersDisplay() {
-    const ordersContainer = document.getElementById('orders-container');
-    
-    if (orders.length === 0) {
-        ordersContainer.innerHTML = '<p class="no-orders">You haven\'t placed any orders yet.</p>';
-        return;
-    }
-    
-    let ordersHTML = '';
-    orders.forEach((order, index) => {
-        const orderDate = new Date(order.date);
-        const dateString = orderDate.toLocaleDateString() + ' ' + orderDate.toLocaleTimeString();
-        
-        let itemsList = '';
-        order.items.forEach(item => {
-            itemsList += `<li>${item.name} x${item.quantity} - ₱${item.price * item.quantity}</li>`;
-        });
-        
-        ordersHTML += `
-            <div class="order-card">
-                <div class="order-header">
-                    <div>
-                        <h3>Order #${order.id}</h3>
-                        <p class="order-date">${dateString}</p>
-                    </div>
-                    <span class="order-status ${order.status}">${order.status}</span>
-                </div>
-                <div class="order-items">
-                    <ul>${itemsList}</ul>
-                </div>
-                <div class="order-footer">
-                    <div class="order-total">
-                        <strong>Total:</strong> ₱${order.total.toFixed(2)}
-                    </div>
-                    ${order.status === 'Pending' ? `<button class="cancel-order-btn" onclick="cancelOrder(${index})">Cancel Order</button>` : ''}
-                </div>
-            </div>
-        `;
-    });
-    
-    ordersContainer.innerHTML = ordersHTML;
-}
-
-// Cancel order
-function cancelOrder(index) {
-    if (confirm('Are you sure you want to cancel this order?')) {
-        orders[index].status = 'Cancelled';
-        localStorage.setItem('orders', JSON.stringify(orders));
-        updateOrdersDisplay();
-    }
-}
-
-// Toggle orders modal
-function toggleOrders() {
-    const ordersModal = document.getElementById('orders-modal');
-    ordersModal.classList.toggle('active');
-    if (ordersModal.classList.contains('active')) {
-        updateOrdersDisplay();
-    }
-}
+let currentOrder = null;
+let cancelTimer = null;
+let countdownInterval = null;
 
 // Toggle cart sidebar
 function toggleCart() {
@@ -233,8 +173,9 @@ function placeOrder() {
     const total = subtotal + deliveryFee;
     
     // Create order object
-    const order = {
-        id: Date.now(),
+    const orderId = Date.now();
+    currentOrder = {
+        id: orderId,
         date: new Date().toISOString(),
         items: [...cart],
         subtotal: subtotal,
@@ -243,22 +184,100 @@ function placeOrder() {
         status: 'Pending'
     };
     
-    // Add to orders
-    orders.unshift(order);
-    localStorage.setItem('orders', JSON.stringify(orders));
+    // Show order number
+    document.getElementById('order-number-display').innerHTML = `<p class="order-number-text">Order #${orderId}</p>`;
     
     // Clear cart and show confirmation
     document.getElementById('receipt-modal').classList.remove('active');
     document.getElementById('confirmation-modal').classList.add('active');
     
-    // Update orders display
-    updateOrdersDisplay();
+    // Start cancellation timer (60 seconds)
+    startCancellationTimer();
+}
+
+// Start cancellation timer
+function startCancellationTimer() {
+    const cancelBtn = document.getElementById('cancel-order-btn');
+    const timerElement = document.getElementById('cancellation-timer');
+    const countdownElement = document.getElementById('countdown');
+    
+    // Show cancel button and timer
+    cancelBtn.style.display = 'inline-block';
+    timerElement.style.display = 'block';
+    
+    let secondsLeft = 60;
+    countdownElement.textContent = secondsLeft;
+    
+    // Clear any existing timers
+    if (countdownInterval) clearInterval(countdownInterval);
+    if (cancelTimer) clearTimeout(cancelTimer);
+    
+    // Update countdown every second
+    countdownInterval = setInterval(() => {
+        secondsLeft--;
+        countdownElement.textContent = secondsLeft;
+        
+        if (secondsLeft <= 0) {
+            clearInterval(countdownInterval);
+        }
+    }, 1000);
+    
+    // Hide cancel button after 60 seconds
+    cancelTimer = setTimeout(() => {
+        cancelBtn.style.display = 'none';
+        timerElement.innerHTML = '<p class="timer-expired">⏰ Cancellation window expired. Your order is being prepared!</p>';
+        currentOrder = null;
+    }, 60000);
+}
+
+// Cancel current order
+function cancelCurrentOrder() {
+    if (currentOrder) {
+        // Clear timers
+        if (countdownInterval) clearInterval(countdownInterval);
+        if (cancelTimer) clearTimeout(cancelTimer);
+        
+        // Update confirmation modal
+        const confirmationModal = document.querySelector('#confirmation-modal .confirmation');
+        confirmationModal.innerHTML = `
+            <div class="confirmation-icon cancelled">✖</div>
+            <h2>Order Cancelled</h2>
+            <p class="confirmation-message">Your order has been cancelled successfully.</p>
+            <p class="refund-message">💰 Full refund will be processed shortly</p>
+            <button class="ok-btn" onclick="closeConfirmation()">OK</button>
+        `;
+        
+        currentOrder = null;
+    }
 }
 
 // Close confirmation
 function closeConfirmation() {
+    // Clear any active timers
+    if (countdownInterval) clearInterval(countdownInterval);
+    if (cancelTimer) clearTimeout(cancelTimer);
+    
     document.getElementById('confirmation-modal').classList.remove('active');
+    
+    // Reset confirmation modal to default
+    const confirmationModal = document.querySelector('#confirmation-modal .confirmation');
+    confirmationModal.innerHTML = `
+        <div class="confirmation-icon">✓</div>
+        <h2>Order Confirmed!</h2>
+        <p>Thank you for your purchase!</p>
+        <p class="confirmation-message">Your order has been placed successfully and will be delivered shortly.</p>
+        <div class="order-number-display" id="order-number-display"></div>
+        <div class="cancellation-timer" id="cancellation-timer">
+            <p class="timer-text">⏱️ You can cancel this order within: <span id="countdown" class="countdown">60</span>s</p>
+        </div>
+        <div class="confirmation-actions">
+            <button class="ok-btn" onclick="closeConfirmation()">OK</button>
+            <button class="cancel-order-btn-confirm" id="cancel-order-btn" onclick="cancelCurrentOrder()" style="display:none;">Cancel Order</button>
+        </div>
+    `;
+    
     cart = [];
+    currentOrder = null;
     updateCart();
 }
 

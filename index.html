@@ -19,7 +19,6 @@
         <a href="#menu">Menu</a>
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
-        <a href="#" onclick="toggleOrders(); return false;">My Orders</a>
         <a href="#" class="cart-link" onclick="toggleCart(); return false;">🛒 Cart (<span id="cart-count">0</span>)</a>
     </nav>
 
@@ -97,7 +96,14 @@
                 <h2>Order Confirmed!</h2>
                 <p>Thank you for your purchase!</p>
                 <p class="confirmation-message">Your order has been placed successfully and will be delivered shortly.</p>
-                <button class="ok-btn" onclick="closeConfirmation()">OK</button>
+                <div class="order-number-display" id="order-number-display"></div>
+                <div class="cancellation-timer" id="cancellation-timer">
+                    <p class="timer-text">⏱️ You can cancel this order within: <span id="countdown" class="countdown">60</span>s</p>
+                </div>
+                <div class="confirmation-actions">
+                    <button class="ok-btn" onclick="closeConfirmation()">OK</button>
+                    <button class="cancel-order-btn-confirm" id="cancel-order-btn" onclick="cancelCurrentOrder()" style="display:none;">Cancel Order</button>
+                </div>
             </div>
         </div>
     </div>
@@ -267,19 +273,6 @@
                 <h2>Thank You!</h2>
                 <p class="confirmation-message">We'll respond shortly</p>
                 <button class="ok-btn" onclick="closeContactModal()">OK</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Orders Modal -->
-    <div id="orders-modal" class="modal">
-        <div class="modal-content orders-modal-content">
-            <div class="modal-header">
-                <h2>My Orders</h2>
-                <button class="close-modal" onclick="toggleOrders()">✖</button>
-            </div>
-            <div id="orders-container" class="orders-container">
-                <!-- Orders will be displayed here -->
             </div>
         </div>
     </div>
