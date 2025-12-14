@@ -16,6 +16,60 @@ function scrollToMenu() {
 
 // Cart functionality
 let cart = [];
+let orders = JSON.parse(localStorage.getItem('orders')) || [];
+
+// Update orders display
+function updateOrdersDisplay() {
+    const ordersContainer = document.getElementById('orders-container');
+    
+    if (orders.length === 0) {
+        ordersContainer.innerHTML = '<p class="no-orders">You haven\'t placed any orders yet.</p>';
+        return;
+    }
+    
+    let ordersHTML = '';
+    orders.forEach((order, index) => {
+        const orderDate = new Date(order.date);
+        const dateString = orderDate.toLocaleDateString() + ' ' + orderDate.toLocaleTimeString();
+        
+        let itemsList = '';
+        order.items.forEach(item => {
+            itemsList += `<li>${item.name} x${item.quantity} - ₱${item.price * item.quantity}</li>`;
+        });
+        
+        ordersHTML += `
+            <div class="order-card">
+                <div class="order-header">
+                    <div>
+                        <h3>Order #${order.id}</h3>
+                        <p class="order-date">${dateString}</p>
+                    </div>
+                    <span class="order-status ${order.status}">${order.status}</span>
+                </div>
+                <div class="order-items">
+                    <ul>${itemsList}</ul>
+                </div>
+                <div class="order-footer">
+                    <div class="order-total">
+                        <strong>Total:</strong> ₱${order.total.toFixed(2)}
+                    </div>
+                    ${order.status === 'Pending' ? `<button class="cancel-order-btn" onclick="cancelOrder(${index})">Cancel Order</button>` : ''}
+                </div>
+            </div>
+        `;
+    });
+    
+    ordersContainer.innerHTML = ordersHTML;
+}
+
+// Cancel order
+function cancelOrder(index) {
+    if (confirm('Are you sure you want to cancel this order?')) {
+        orders[index].status = 'Cancelled';
+        localStorage.setItem('orders', JSON.stringify(orders));
+        updateOrdersDisplay();
+    }
+}
 
 // Toggle cart sidebar
 function toggleCart() {
@@ -157,8 +211,35 @@ function closeReceipt() {
 
 // Place order
 function placeOrder() {
+    // Calculate totals
+    let subtotal = 0;
+    cart.forEach(item => {
+        subtotal += item.price * item.quantity;
+    });
+    const deliveryFee = 50;
+    const total = subtotal + deliveryFee;
+    
+    // Create order object
+    const order = {
+        id: Date.now(),
+        date: new Date().toISOString(),
+        items: [...cart],
+        subtotal: subtotal,
+        deliveryFee: deliveryFee,
+        total: total,
+        status: 'Pending'
+    };
+    
+    // Add to orders
+    orders.unshift(order);
+    localStorage.setItem('orders', JSON.stringify(orders));
+    
+    // Clear cart and show confirmation
     document.getElementById('receipt-modal').classList.remove('active');
     document.getElementById('confirmation-modal').classList.add('active');
+    
+    // Update orders display
+    updateOrdersDisplay();
 }
 
 // Close confirmation
@@ -192,6 +273,12 @@ function scrollToMenu() {
     const menuSection = document.querySelector('#menu');
     menuSection.scrollIntoView({ behavior: 'smooth' });
 }
+
+// Initialize orders display on page load
+window.addEventListener('load', function() {
+    updateOrdersDisplay();
+    window.dispatchEvent(new Event('scroll'));
+});
 
 // Add to cart functionality
 document.querySelectorAll('.add-btn').forEach(button => {
