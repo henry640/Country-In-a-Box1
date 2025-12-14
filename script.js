@@ -276,6 +276,8 @@ function updateOrdersList() {
 }
 
 // Cancel order
+let orderToCancel = null;
+
 function cancelOrder(index) {
     const order = orders[index];
     const orderDate = new Date(order.date);
@@ -283,21 +285,42 @@ function cancelOrder(index) {
     const minutesPassed = Math.floor((now - orderDate) / 1000 / 60);
     
     if (minutesPassed >= 20) {
-        alert('⏰ Sorry, the 20-minute cancellation window has expired.');
+        document.getElementById('time-expired-modal').classList.add('active');
         return;
     }
     
-    if (confirm(`Are you sure you want to cancel Order #${order.id}?`)) {
-        orders[index].status = 'Cancelled';
+    // Store index and show confirmation modal
+    orderToCancel = index;
+    document.getElementById('cancel-order-text').textContent = `Are you sure you want to cancel Order #${order.id}?`;
+    document.getElementById('cancel-confirm-modal').classList.add('active');
+}
+
+// Confirm cancel order
+function confirmCancelOrder() {
+    if (orderToCancel !== null) {
+        orders[orderToCancel].status = 'Cancelled';
         localStorage.setItem('orders', JSON.stringify(orders));
+        orderToCancel = null;
+        document.getElementById('cancel-confirm-modal').classList.remove('active');
         closeMyOrders();
         document.getElementById('cancel-success-modal').classList.add('active');
     }
 }
 
+// Close cancel confirmation modal
+function closeCancelConfirm() {
+    orderToCancel = null;
+    document.getElementById('cancel-confirm-modal').classList.remove('active');
+}
+
 // Close cancel success modal
 function closeCancelSuccess() {
     document.getElementById('cancel-success-modal').classList.remove('active');
+}
+
+// Close time expired modal
+function closeTimeExpired() {
+    document.getElementById('time-expired-modal').classList.remove('active');
 }
 
 // Print receipt

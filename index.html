@@ -284,6 +284,21 @@
         </div>
     </div>
 
+    <!-- Cancel Confirmation Modal -->
+    <div id="cancel-confirm-modal" class="modal">
+        <div class="modal-content">
+            <div class="confirmation">
+                <div class="confirmation-icon warning-icon">⚠️</div>
+                <h2>Cancel Order?</h2>
+                <p class="confirmation-message" id="cancel-order-text">Are you sure you want to cancel this order?</p>
+                <div class="modal-actions">
+                    <button class="cancel-btn-modal" onclick="closeCancelConfirm()">No, Keep Order</button>
+                    <button class="ok-btn confirm-cancel-btn" onclick="confirmCancelOrder()">Yes, Cancel Order</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Order Cancellation Success Modal -->
     <div id="cancel-success-modal" class="modal">
         <div class="modal-content">
@@ -292,6 +307,18 @@
                 <h2>Order Cancelled</h2>
                 <p class="confirmation-message">Your order has been cancelled successfully.</p>
                 <button class="ok-btn" onclick="closeCancelSuccess()">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Time Expired Modal -->
+    <div id="time-expired-modal" class="modal">
+        <div class="modal-content">
+            <div class="confirmation">
+                <div class="confirmation-icon expired-icon">⏰</div>
+                <h2>Time Expired</h2>
+                <p class="confirmation-message">Sorry, the 20-minute cancellation window has expired.</p>
+                <button class="ok-btn" onclick="closeTimeExpired()">OK</button>
             </div>
         </div>
     </div>
