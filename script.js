@@ -221,7 +221,7 @@ function closeMyOrders() {
 // Update orders list
 let ordersUpdateInterval = null;
 
-function updateOrdersList() {
+function updateOrdersList(initialRender = true) {
     const ordersList = document.getElementById('orders-list');
     
     if (orders.length === 0) {
@@ -233,82 +233,106 @@ function updateOrdersList() {
         return;
     }
     
-    let html = '';
     let hasActiveOrders = false;
     
-    orders.forEach((order, index) => {
-        const orderDate = new Date(order.date);
-        const now = new Date();
-        const secondsPassed = Math.floor((now - orderDate) / 1000);
-        const minutesPassed = Math.floor(secondsPassed / 60);
-        const secondsLeft = (20 * 60) - secondsPassed;
-        const canCancel = secondsLeft > 0 && order.status === 'Active';
-        
-        if (canCancel) hasActiveOrders = true;
-        
-        // Calculate minutes and seconds left
-        const minsLeft = Math.floor(secondsLeft / 60);
-        const secsLeft = secondsLeft % 60;
-        
-        let itemsList = '';
-        order.items.forEach(item => {
-            itemsList += `<li>${item.name} x${item.quantity} - ₱${(item.price * item.quantity).toFixed(2)}</li>`;
-        });
-        
-        let statusBadge = '';
-        if (order.status === 'Active') {
-            statusBadge = '<span class="status-badge active">Active</span>';
-        } else if (order.status === 'Cancelled') {
-            statusBadge = '<span class="status-badge cancelled">Cancelled</span>';
-        } else if (order.status === 'Delivered') {
-            statusBadge = '<span class="status-badge delivered">Delivered</span>';
-        }
-        
-        // Format date properly
-        const formattedDate = orderDate.toLocaleDateString('en-US', { 
-            month: 'short', 
-            day: 'numeric', 
-            year: 'numeric' 
-        });
-        const formattedTime = orderDate.toLocaleTimeString('en-US', { 
-            hour: 'numeric', 
-            minute: '2-digit',
-            hour12: true 
-        });
-        
-        html += `
-            <div class="order-card">
-                <div class="order-header">
-                    <div class="order-info">
-                        <h3>Order #${order.id}</h3>
-                        <p class="order-date">📅 ${formattedDate} at ${formattedTime}</p>
-                    </div>
-                    ${statusBadge}
-                </div>
-                <div class="order-items">
-                    <ul>${itemsList}</ul>
-                </div>
-                <div class="order-footer">
-                    <div class="order-total">
-                        <strong>Total:</strong> ₱${order.total.toFixed(2)}
-                    </div>
-                    ${canCancel ? `
-                        <div class="cancel-section">
-                            <p class="time-remaining">⏱️ Cancel within: <strong>${minsLeft}:${secsLeft.toString().padStart(2, '0')}</strong></p>
-                            <button class="cancel-order-btn" onclick="cancelOrder(${index})">Cancel Order</button>
+    // If initial render, create all HTML
+    if (initialRender) {
+        let html = '';
+        orders.forEach((order, index) => {
+            const orderDate = new Date(order.date);
+            const now = new Date();
+            const secondsPassed = Math.floor((now - orderDate) / 1000);
+            const secondsLeft = (20 * 60) - secondsPassed;
+            const canCancel = secondsLeft > 0 && order.status === 'Active';
+            
+            if (canCancel) hasActiveOrders = true;
+            
+            // Calculate minutes and seconds left
+            const minsLeft = Math.floor(secondsLeft / 60);
+            const secsLeft = secondsLeft % 60;
+            
+            let itemsList = '';
+            order.items.forEach(item => {
+                itemsList += `<li>${item.name} x${item.quantity} - ₱${(item.price * item.quantity).toFixed(2)}</li>`;
+            });
+            
+            let statusBadge = '';
+            if (order.status === 'Active') {
+                statusBadge = '<span class="status-badge active">Active</span>';
+            } else if (order.status === 'Cancelled') {
+                statusBadge = '<span class="status-badge cancelled">Cancelled</span>';
+            } else if (order.status === 'Delivered') {
+                statusBadge = '<span class="status-badge delivered">Delivered</span>';
+            }
+            
+            // Format date properly
+            const formattedDate = orderDate.toLocaleDateString('en-US', { 
+                month: 'short', 
+                day: 'numeric', 
+                year: 'numeric' 
+            });
+            const formattedTime = orderDate.toLocaleTimeString('en-US', { 
+                hour: 'numeric', 
+                minute: '2-digit',
+                hour12: true 
+            });
+            
+            html += `
+                <div class="order-card" data-order-index="${index}">
+                    <div class="order-header">
+                        <div class="order-info">
+                            <h3>Order #${order.id}</h3>
+                            <p class="order-date">📅 ${formattedDate} at ${formattedTime}</p>
                         </div>
-                    ` : ''}
-                    ${!canCancel && order.status === 'Active' ? '<p class="expired-text">⏰ Cancellation window expired</p>' : ''}
+                        ${statusBadge}
+                    </div>
+                    <div class="order-items">
+                        <ul>${itemsList}</ul>
+                    </div>
+                    <div class="order-footer">
+                        <div class="order-total">
+                            <strong>Total:</strong> ₱${order.total.toFixed(2)}
+                        </div>
+                        ${canCancel ? `
+                            <div class="cancel-section">
+                                <p class="time-remaining">⏱️ Cancel within: <strong class="countdown-timer" data-order-index="${index}">${minsLeft}:${secsLeft.toString().padStart(2, '0')}</strong></p>
+                                <button class="cancel-order-btn" onclick="cancelOrder(${index})">Cancel Order</button>
+                            </div>
+                        ` : ''}
+                        ${!canCancel && order.status === 'Active' ? '<p class="expired-text">⏰ Cancellation window expired</p>' : ''}
+                    </div>
                 </div>
-            </div>
-        `;
-    });
-    
-    ordersList.innerHTML = html;
+            `;
+        });
+        
+        ordersList.innerHTML = html;
+    } else {
+        // Just update the countdown timers without re-rendering
+        orders.forEach((order, index) => {
+            const orderDate = new Date(order.date);
+            const now = new Date();
+            const secondsPassed = Math.floor((now - orderDate) / 1000);
+            const secondsLeft = (20 * 60) - secondsPassed;
+            const canCancel = secondsLeft > 0 && order.status === 'Active';
+            
+            if (canCancel) hasActiveOrders = true;
+            
+            const timerElement = document.querySelector(`.countdown-timer[data-order-index="${index}"]`);
+            if (timerElement && canCancel) {
+                const minsLeft = Math.floor(secondsLeft / 60);
+                const secsLeft = secondsLeft % 60;
+                timerElement.textContent = `${minsLeft}:${secsLeft.toString().padStart(2, '0')}`;
+            } else if (timerElement && !canCancel) {
+                // Time expired, need to refresh to show expired message
+                updateOrdersList(true);
+                return;
+            }
+        });
+    }
     
     // Start live countdown if there are active orders
     if (hasActiveOrders && !ordersUpdateInterval) {
-        ordersUpdateInterval = setInterval(updateOrdersList, 1000);
+        ordersUpdateInterval = setInterval(() => updateOrdersList(false), 1000);
     } else if (!hasActiveOrders && ordersUpdateInterval) {
         clearInterval(ordersUpdateInterval);
         ordersUpdateInterval = null;
