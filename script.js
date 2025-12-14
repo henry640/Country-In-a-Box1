@@ -1,10 +1,14 @@
 // Smooth scrolling for navigation links
 document.querySelectorAll('nav a').forEach(link => {
     link.addEventListener('click', function(e) {
-        e.preventDefault();
         const targetId = this.getAttribute('href');
-        const targetSection = document.querySelector(targetId);
-        targetSection.scrollIntoView({ behavior: 'smooth' });
+        if (targetId && targetId.startsWith('#') && targetId !== '#') {
+            e.preventDefault();
+            const targetSection = document.querySelector(targetId);
+            if (targetSection) {
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
     });
 });
 
@@ -67,6 +71,15 @@ function cancelOrder(index) {
     if (confirm('Are you sure you want to cancel this order?')) {
         orders[index].status = 'Cancelled';
         localStorage.setItem('orders', JSON.stringify(orders));
+        updateOrdersDisplay();
+    }
+}
+
+// Toggle orders modal
+function toggleOrders() {
+    const ordersModal = document.getElementById('orders-modal');
+    ordersModal.classList.toggle('active');
+    if (ordersModal.classList.contains('active')) {
         updateOrdersDisplay();
     }
 }
