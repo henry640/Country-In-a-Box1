@@ -213,12 +213,7 @@ function updateOrdersList() {
     const ordersList = document.getElementById('orders-list');
     
     if (orders.length === 0) {
-        ordersList.innerHTML = `
-            <div class="no-orders">
-                <p>📦 No orders yet</p>
-                <p>Start exploring our menu and place your first order!</p>
-            </div>
-        `;
+        ordersList.innerHTML = '';
         return;
     }
     
