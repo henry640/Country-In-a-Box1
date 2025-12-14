@@ -55,6 +55,15 @@ nav a:hover {
     background-color: #ff6b6b;
 }
 
+.orders-link {
+    background-color: #4CAF50;
+    font-weight: bold;
+}
+
+.orders-link:hover {
+    background-color: #45a049 !important;
+}
+
 .cart-link {
     background-color: #4CAF50;
     font-weight: bold;
