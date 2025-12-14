@@ -242,7 +242,7 @@ function updateOrdersList(initialRender = true) {
             const orderDate = new Date(order.date);
             const now = new Date();
             const secondsPassed = Math.floor((now - orderDate) / 1000);
-            const secondsLeft = (20 * 60) - secondsPassed;
+            const secondsLeft = (10 * 60) - secondsPassed;
             const canCancel = secondsLeft > 0 && order.status === 'Active';
             
             if (canCancel) hasActiveOrders = true;
@@ -312,7 +312,7 @@ function updateOrdersList(initialRender = true) {
             const orderDate = new Date(order.date);
             const now = new Date();
             const secondsPassed = Math.floor((now - orderDate) / 1000);
-            const secondsLeft = (20 * 60) - secondsPassed;
+            const secondsLeft = (10 * 60) - secondsPassed;
             const canCancel = secondsLeft > 0 && order.status === 'Active';
             
             if (canCancel) hasActiveOrders = true;
