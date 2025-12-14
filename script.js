@@ -211,24 +211,44 @@ function openMyOrders() {
 // Close My Orders modal
 function closeMyOrders() {
     document.getElementById('my-orders-modal').classList.remove('active');
+    // Stop the countdown when modal is closed
+    if (ordersUpdateInterval) {
+        clearInterval(ordersUpdateInterval);
+        ordersUpdateInterval = null;
+    }
 }
 
 // Update orders list
+let ordersUpdateInterval = null;
+
 function updateOrdersList() {
     const ordersList = document.getElementById('orders-list');
     
     if (orders.length === 0) {
         ordersList.innerHTML = '';
+        if (ordersUpdateInterval) {
+            clearInterval(ordersUpdateInterval);
+            ordersUpdateInterval = null;
+        }
         return;
     }
     
     let html = '';
+    let hasActiveOrders = false;
+    
     orders.forEach((order, index) => {
         const orderDate = new Date(order.date);
         const now = new Date();
-        const minutesPassed = Math.floor((now - orderDate) / 1000 / 60);
-        const canCancel = minutesPassed < 20 && order.status === 'Active';
-        const timeLeft = canCancel ? 20 - minutesPassed : 0;
+        const secondsPassed = Math.floor((now - orderDate) / 1000);
+        const minutesPassed = Math.floor(secondsPassed / 60);
+        const secondsLeft = (20 * 60) - secondsPassed;
+        const canCancel = secondsLeft > 0 && order.status === 'Active';
+        
+        if (canCancel) hasActiveOrders = true;
+        
+        // Calculate minutes and seconds left
+        const minsLeft = Math.floor(secondsLeft / 60);
+        const secsLeft = secondsLeft % 60;
         
         let itemsList = '';
         order.items.forEach(item => {
@@ -274,7 +294,7 @@ function updateOrdersList() {
                     </div>
                     ${canCancel ? `
                         <div class="cancel-section">
-                            <p class="time-remaining">⏱️ Cancel within: <strong>${timeLeft} min</strong></p>
+                            <p class="time-remaining">⏱️ Cancel within: <strong>${minsLeft}:${secsLeft.toString().padStart(2, '0')}</strong></p>
                             <button class="cancel-order-btn" onclick="cancelOrder(${index})">Cancel Order</button>
                         </div>
                     ` : ''}
@@ -285,6 +305,14 @@ function updateOrdersList() {
     });
     
     ordersList.innerHTML = html;
+    
+    // Start live countdown if there are active orders
+    if (hasActiveOrders && !ordersUpdateInterval) {
+        ordersUpdateInterval = setInterval(updateOrdersList, 1000);
+    } else if (!hasActiveOrders && ordersUpdateInterval) {
+        clearInterval(ordersUpdateInterval);
+        ordersUpdateInterval = null;
+    }
 }
 
 // Cancel order
