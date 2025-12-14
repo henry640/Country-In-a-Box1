@@ -20,6 +20,7 @@ function scrollToMenu() {
 
 // Cart functionality
 let cart = [];
+let orders = JSON.parse(localStorage.getItem('orders')) || [];
 
 // Toggle cart sidebar
 function toggleCart() {
@@ -161,6 +162,29 @@ function closeReceipt() {
 
 // Place order
 function placeOrder() {
+    // Calculate totals
+    let subtotal = 0;
+    cart.forEach(item => {
+        subtotal += item.price * item.quantity;
+    });
+    const deliveryFee = 50;
+    const total = subtotal + deliveryFee;
+    
+    // Create order object
+    const order = {
+        id: Date.now(),
+        date: new Date().toISOString(),
+        items: [...cart],
+        subtotal: subtotal,
+        deliveryFee: deliveryFee,
+        total: total,
+        status: 'Active'
+    };
+    
+    // Save order
+    orders.unshift(order);
+    localStorage.setItem('orders', JSON.stringify(orders));
+    
     // Clear cart and show confirmation
     document.getElementById('receipt-modal').classList.remove('active');
     document.getElementById('confirmation-modal').classList.add('active');
@@ -171,6 +195,109 @@ function closeConfirmation() {
     document.getElementById('confirmation-modal').classList.remove('active');
     cart = [];
     updateCart();
+}
+
+// Open My Orders modal
+function openMyOrders() {
+    updateOrdersList();
+    document.getElementById('my-orders-modal').classList.add('active');
+}
+
+// Close My Orders modal
+function closeMyOrders() {
+    document.getElementById('my-orders-modal').classList.remove('active');
+}
+
+// Update orders list
+function updateOrdersList() {
+    const ordersList = document.getElementById('orders-list');
+    
+    if (orders.length === 0) {
+        ordersList.innerHTML = `
+            <div class="no-orders">
+                <p>📦 No orders yet</p>
+                <p>Start exploring our menu and place your first order!</p>
+            </div>
+        `;
+        return;
+    }
+    
+    let html = '';
+    orders.forEach((order, index) => {
+        const orderDate = new Date(order.date);
+        const now = new Date();
+        const minutesPassed = Math.floor((now - orderDate) / 1000 / 60);
+        const canCancel = minutesPassed < 20 && order.status === 'Active';
+        const timeLeft = canCancel ? 20 - minutesPassed : 0;
+        
+        let itemsList = '';
+        order.items.forEach(item => {
+            itemsList += `<li>${item.name} x${item.quantity} - ₱${(item.price * item.quantity).toFixed(2)}</li>`;
+        });
+        
+        let statusBadge = '';
+        if (order.status === 'Active') {
+            statusBadge = '<span class="status-badge active">Active</span>';
+        } else if (order.status === 'Cancelled') {
+            statusBadge = '<span class="status-badge cancelled">Cancelled</span>';
+        } else if (order.status === 'Delivered') {
+            statusBadge = '<span class="status-badge delivered">Delivered</span>';
+        }
+        
+        html += `
+            <div class="order-card">
+                <div class="order-header">
+                    <div class="order-info">
+                        <h3>Order #${order.id}</h3>
+                        <p class="order-date">📅 ${orderDate.toLocaleString()}</p>
+                    </div>
+                    ${statusBadge}
+                </div>
+                <div class="order-items">
+                    <ul>${itemsList}</ul>
+                </div>
+                <div class="order-footer">
+                    <div class="order-total">
+                        <strong>Total:</strong> ₱${order.total.toFixed(2)}
+                    </div>
+                    ${canCancel ? `
+                        <div class="cancel-section">
+                            <p class="time-remaining">⏱️ Cancel within: <strong>${timeLeft} min</strong></p>
+                            <button class="cancel-order-btn" onclick="cancelOrder(${index})">Cancel Order</button>
+                        </div>
+                    ` : ''}
+                    ${!canCancel && order.status === 'Active' ? '<p class="expired-text">⏰ Cancellation window expired</p>' : ''}
+                </div>
+            </div>
+        `;
+    });
+    
+    ordersList.innerHTML = html;
+}
+
+// Cancel order
+function cancelOrder(index) {
+    const order = orders[index];
+    const orderDate = new Date(order.date);
+    const now = new Date();
+    const minutesPassed = Math.floor((now - orderDate) / 1000 / 60);
+    
+    if (minutesPassed >= 20) {
+        alert('⏰ Sorry, the 20-minute cancellation window has expired.');
+        return;
+    }
+    
+    if (confirm(`Are you sure you want to cancel Order #${order.id}?\n\n💰 Full refund will be processed within 3-5 business days.`)) {
+        orders[index].status = 'Cancelled';
+        localStorage.setItem('orders', JSON.stringify(orders));
+        closeMyOrders();
+        document.getElementById('cancel-success-modal').classList.add('active');
+    }
+}
+
+// Close cancel success modal
+function closeCancelSuccess() {
+    document.getElementById('cancel-success-modal').classList.remove('active');
 }
 
 // Print receipt

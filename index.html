@@ -19,6 +19,7 @@
         <a href="#menu">Menu</a>
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
+        <a href="#" onclick="openMyOrders(); return false;">My Orders</a>
         <a href="#" class="cart-link" onclick="toggleCart(); return false;">🛒 Cart (<span id="cart-count">0</span>)</a>
     </nav>
 
@@ -266,6 +267,32 @@
                 <h2>Thank You!</h2>
                 <p class="confirmation-message">We'll respond shortly</p>
                 <button class="ok-btn" onclick="closeContactModal()">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- My Orders Modal -->
+    <div id="my-orders-modal" class="modal">
+        <div class="modal-content my-orders-modal-content">
+            <div class="orders-header">
+                <h2>📋 My Orders</h2>
+                <button class="close-modal" onclick="closeMyOrders()">✖</button>
+            </div>
+            <div id="orders-list" class="orders-list">
+                <!-- Orders will be displayed here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Cancellation Success Modal -->
+    <div id="cancel-success-modal" class="modal">
+        <div class="modal-content">
+            <div class="confirmation">
+                <div class="confirmation-icon cancelled-icon">✓</div>
+                <h2>Order Cancelled</h2>
+                <p class="confirmation-message">Your order has been cancelled successfully.</p>
+                <p class="refund-message">💰 Full refund will be processed within 3-5 business days</p>
+                <button class="ok-btn" onclick="closeCancelSuccess()">OK</button>
             </div>
         </div>
     </div>
