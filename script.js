@@ -299,7 +299,7 @@ function updateOrdersList(initialRender = true) {
                                 <button class="cancel-order-btn" onclick="cancelOrder(${index})">Cancel Order</button>
                             </div>
                         ` : ''}
-                        ${!canCancel && order.status === 'Active' ? '<p class="expired-text">⏰ Cancellation window expired</p>' : ''}
+                        ${!canCancel && order.status === 'Active' ? '<p class="expired-text">Cancellation window expired</p>' : ''}
                     </div>
                 </div>
             `;
