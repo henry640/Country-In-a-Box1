@@ -408,13 +408,11 @@ function closeContactModal() {
     document.getElementById('contact-success-modal').classList.remove('active');
 }
 
-// Simple animation on scroll
+// Animation on scroll for food cards
 window.addEventListener('scroll', function() {
     const elements = document.querySelectorAll('.food-card');
-    
     elements.forEach(element => {
         const position = element.getBoundingClientRect();
-        
         if (position.top < window.innerHeight && position.bottom >= 0) {
             element.style.opacity = '1';
             element.style.transform = 'translateY(0)';
@@ -422,14 +420,15 @@ window.addEventListener('scroll', function() {
     });
 });
 
-// Initialize cards with animation ready state
-document.querySelectorAll('.food-card').forEach(card => {
-    card.style.opacity = '0';
-    card.style.transform = 'translateY(20px)';
-    card.style.transition = 'opacity 0.5s, transform 0.5s';
-});
-
-// Trigger animation on page load
+// Initialize on page load
 window.addEventListener('load', function() {
+    // Set animation ready state for food cards
+    document.querySelectorAll('.food-card').forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'opacity 0.5s, transform 0.5s';
+    });
+    
+    // Trigger initial animation
     window.dispatchEvent(new Event('scroll'));
 });
