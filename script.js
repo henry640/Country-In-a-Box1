@@ -244,12 +244,24 @@ function updateOrdersList() {
             statusBadge = '<span class="status-badge delivered">Delivered</span>';
         }
         
+        // Format date properly
+        const formattedDate = orderDate.toLocaleDateString('en-US', { 
+            month: 'short', 
+            day: 'numeric', 
+            year: 'numeric' 
+        });
+        const formattedTime = orderDate.toLocaleTimeString('en-US', { 
+            hour: 'numeric', 
+            minute: '2-digit',
+            hour12: true 
+        });
+        
         html += `
             <div class="order-card">
                 <div class="order-header">
                     <div class="order-info">
                         <h3>Order #${order.id}</h3>
-                        <p class="order-date">📅 ${orderDate.toLocaleString()}</p>
+                        <p class="order-date">📅 ${formattedDate} at ${formattedTime}</p>
                     </div>
                     ${statusBadge}
                 </div>
