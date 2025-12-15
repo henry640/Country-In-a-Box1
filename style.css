@@ -641,25 +641,6 @@ section h2 {
     margin: 0;
 }
 
-@media (max-width: 768px) {
-    .stats {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-    
-    .stat-box {
-        padding: 35px 25px;
-    }
-    
-    .stat-box h3 {
-        font-size: 3em;
-    }
-    
-    .stat-box p {
-        font-size: 0.95em;
-    }
-}
-
 /* Contact Section */
 .contact-info {
     display: flex;
@@ -734,31 +715,6 @@ footer {
 
 footer p {
     margin: 5px 0;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    header h1 {
-        font-size: 2em;
-    }
-    
-    nav a {
-        display: block;
-        margin: 5px 0;
-    }
-    
-    .food-container {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .stats {
-        flex-direction: column;
-    }
-    
-    .contact-info {
-        flex-direction: column;
-    }
 }
 
 /* My Orders Modal */
@@ -1048,40 +1004,6 @@ footer p {
     margin: 10px 0;
 }
 
-/* Responsive for My Orders */
-@media (max-width: 768px) {
-    .my-orders-modal-content {
-        max-width: 95%;
-        max-height: 90vh;
-    }
-    
-    .orders-header {
-        padding: 20px;
-    }
-    
-    .orders-header h2 {
-        font-size: 1.5em;
-    }
-    
-    .order-card {
-        padding: 20px;
-    }
-    
-    .order-footer {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .cancel-section {
-        align-items: flex-start;
-        width: 100%;
-    }
-    
-    .cancel-order-btn {
-        width: 100%;
-    }
-}
-
 /* Physical Stores Section */
 #stores {
     padding: 40px 20px;
@@ -1146,15 +1068,6 @@ footer p {
     line-height: 1.6;
 }
 
-@media (max-width: 768px) {
-    .stores-container {
-        grid-template-columns: 1fr;
-    }
-    
-    #stores h2 {
-        font-size: 1.6em;
-    }
-}
 /* Category Selection Styles */
 .category-selection {
     padding: 30px 0 50px 0;
@@ -1276,19 +1189,4 @@ footer p {
     transform: translateY(0);
 }
 
-@media (max-width: 768px) {
-    .category-grid {
-        grid-template-columns: 1fr;
-        gap: 25px;
-        padding: 0 15px;
-    }
-    
-    .category-card img {
-        height: 200px;
-    }
-    
-    .menu-intro {
-        font-size: 1.05em;
-        padding: 0 15px;
-    }
-}
+
