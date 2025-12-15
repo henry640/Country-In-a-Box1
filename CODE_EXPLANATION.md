@@ -21,11 +21,14 @@ Think of HTML as the **skeleton** of your website. It defines what elements exis
 #### 1. **Header Section**
 ```html
 <header>
-    <h1>🍱 Country in a Box</h1>
-    <p>Experience the World, One Bite at a Time!</p>
+    <img src="images/logo.png" alt="Country in a Box Logo" class="logo">
+    <div class="header-text">
+        <h1>Country in a Box</h1>
+        <p>Experience the World, One Bite at a Time!</p>
+    </div>
 </header>
 ```
-**What it does:** Shows the restaurant name and tagline at the top.
+**What it does:** Shows the restaurant logo, name and tagline at the top.
 
 ---
 
@@ -34,6 +37,7 @@ Think of HTML as the **skeleton** of your website. It defines what elements exis
 <nav>
     <a href="#home">Home</a>
     <a href="#menu">Menu</a>
+    <a href="#stores">Our Stores</a>
     <a href="#about">About</a>
     <a href="#contact">Contact</a>
     <a href="#" class="orders-link">My Orders</a>
@@ -43,10 +47,35 @@ Think of HTML as the **skeleton** of your website. It defines what elements exis
 **What it does:** Creates clickable links to navigate different sections.
 - `href="#home"` means "jump to the section with id='home'"
 - `class="cart-link"` adds a CSS class for styling
+- Includes link to "Our Stores" section
 
 ---
 
-#### 3. **Cart Sidebar**
+#### 3. **Category Selection (NEW)**
+```html
+<div id="category-selection" class="category-selection">
+    <p class="menu-intro">Choose a category to explore our delicious offerings</p>
+    <div class="category-grid">
+        <div class="category-card" onclick="showCategory('featured')">
+            <img src="images/menu/1. Breakfast Boxes.jpg" alt="Featured">
+            <div class="category-info">
+                <h3>Featured Selections</h3>
+                <p>Combo boxes and popular picks</p>
+            </div>
+        </div>
+        <!-- More category cards... -->
+    </div>
+</div>
+```
+**What it does:** 
+- Displays 8 clickable category cards (Featured, Filipino, Asian, American/Mediterranean, European, Family, Snacks, Drinks)
+- Each card shows representative image and description
+- Clicking a card reveals that category's menu items
+- All menu categories are hidden by default (display: none)
+
+---
+
+#### 4. **Cart Sidebar**
 ```html
 <div id="cart-sidebar" class="cart-sidebar">
     <div class="cart-header">
@@ -213,6 +242,58 @@ gap: 20px;                 /* Space between items */
 
 ---
 
+#### 6. **Category Card Styling (NEW)**
+```css
+.category-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.category-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(255,107,107,0.2);
+}
+
+.category-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.category-card:hover img {
+    transform: scale(1.08);
+}
+```
+**What it does:**
+- Creates card-based layout with rounded corners
+- Adds smooth lift effect on hover (-8px up)
+- Zooms image slightly (1.08x) on hover
+- Uses cubic-bezier for smooth, professional animation
+- Enhanced shadows with brand color tint
+
+---
+
+#### 7. **Professional SVG Icons (NEW)**
+```html
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+    <circle cx="12" cy="12" r="10"/>
+    <circle cx="12" cy="12" r="6"/>
+    <circle cx="12" cy="12" r="2"/>
+</svg>
+```
+**What it does:**
+- Replaces emoji icons with scalable vector graphics
+- `currentColor` makes icon match text color
+- Inline SVG for better control and performance
+- Professional appearance vs casual emojis
+
+---
+
 ## 💻 JavaScript (script.js) - THE FUNCTIONALITY
 
 Think of JavaScript as the **brain** of your website. It makes things interactive.
@@ -277,7 +358,61 @@ cartItemsContainer.innerHTML = '<p>Your cart is empty</p>';
 
 ### Key Functions Explained:
 
-#### **1. updateCart() - Updates Cart Display**
+#### **1. showCategory() - Display Selected Menu Category (NEW)**
+```javascript
+function showCategory(categoryName) {
+    // Hide category selection
+    document.getElementById('category-selection').style.display = 'none';
+    
+    // Show back button
+    document.getElementById('back-to-categories').style.display = 'block';
+    
+    // Hide all categories
+    const allCategories = document.querySelectorAll('.menu-category');
+    allCategories.forEach(cat => cat.style.display = 'none');
+    
+    // Show selected category
+    const selectedCategory = document.getElementById('category-' + categoryName);
+    if (selectedCategory) {
+        selectedCategory.style.display = 'block';
+        document.getElementById('menu').scrollIntoView({ behavior: 'smooth' });
+    }
+}
+```
+**What it does:**
+1. Hides the category selection grid
+2. Shows the back button
+3. Hides all menu categories
+4. Displays only the clicked category's items
+5. Smoothly scrolls to menu section
+
+---
+
+#### **2. backToCategories() - Return to Category Selection (NEW)**
+```javascript
+function backToCategories() {
+    // Show category selection
+    document.getElementById('category-selection').style.display = 'block';
+    
+    // Hide back button
+    document.getElementById('back-to-categories').style.display = 'none';
+    
+    // Hide all categories
+    const allCategories = document.querySelectorAll('.menu-category');
+    allCategories.forEach(cat => cat.style.display = 'none');
+    
+    document.getElementById('menu').scrollIntoView({ behavior: 'smooth' });
+}
+```
+**What it does:**
+1. Shows the category selection grid again
+2. Hides the back button
+3. Hides all menu items
+4. Scrolls back to menu section
+
+---
+
+#### **3. updateCart() - Updates Cart Display**
 ```javascript
 function updateCart() {
     // Update cart count
@@ -622,11 +757,17 @@ Makes website work on phones:
 - ✅ Responsive design
 - ✅ Custom modal popups
 - ✅ Data persistence
+- ✅ Category-based menu navigation (click-to-show)
+- ✅ Interactive category cards with hover effects
+- ✅ Professional SVG icons
+- ✅ Physical store locations
+- ✅ Mission & Vision section
+- ✅ Accurate statistics (56 dishes, 12 countries)
 
 **Lines of Code:**
-- HTML: ~327 lines
-- CSS: ~982 lines
-- JavaScript: ~487 lines
+- HTML: ~819 lines
+- CSS: ~1,240 lines
+- JavaScript: ~540 lines
 
 ---
 
@@ -644,6 +785,12 @@ A: "This is a client-side application for demonstration. LocalStorage provides d
 **Q: "How did you handle the hover effect issue?"**
 A: "I separated the initial render from timer updates - the full HTML is only created once, then setInterval only updates the countdown text."
 
+**Q: "Why implement category-based navigation instead of showing all items?"**
+A: "To improve user experience - displaying 56 items at once is overwhelming. Category navigation allows users to browse systematically, reduces initial page load, and creates a more organized shopping experience similar to professional e-commerce sites."
+
+**Q: "Why use SVG icons instead of emojis?"**
+A: "SVG icons are more professional, scalable without quality loss, customizable (can change color, size, stroke), and render consistently across all devices and browsers. Emojis can look different on iOS vs Android vs Windows."
+
 **Q: "What about security?"**
 A: "In a production app, I would implement server-side validation, authentication, and encrypted payment processing. This is a frontend demonstration."
 
@@ -658,9 +805,50 @@ Things you could mention you'd add:
 3. **Email Notifications** - Order confirmations
 4. **Admin Panel** - Restaurant owner dashboard
 5. **Real-time Updates** - WebSocket for live order status
-6. **Search & Filter** - Find dishes easily
-7. **User Reviews** - Rating system
-8. **Order Tracking** - Delivery status map
+6. **Advanced Filtering** - Search, price range, dietary preferences
+7. **User Reviews** - Rating system with photos
+8. **Order Tracking** - Delivery status map with GPS
+9. **Favorites/Wishlist** - Save items for later
+10. **Multi-language Support** - English, Filipino, etc.
+
+---
+
+## 🎯 KEY TECHNICAL DECISIONS EXPLAINED
+
+### 1. **Category-Based Navigation**
+**Decision:** Hide all menu items by default, show only when category clicked.
+**Reasoning:** 
+- Prevents overwhelming users with 56 items at once
+- Improves page performance (less DOM elements visible)
+- Creates focused browsing experience
+- Reduces scroll fatigue
+- Professional UX pattern used by major food delivery apps
+
+### 2. **Professional Icons Over Emojis**
+**Decision:** Use SVG icons for Mission/Vision, clean text for category titles.
+**Reasoning:**
+- Consistent rendering across all platforms
+- Scalable without quality loss
+- Matches corporate/professional aesthetic
+- Better accessibility
+- Customizable (color, size, stroke weight)
+
+### 3. **Card-Based UI Design**
+**Decision:** Use card layout with shadows, hover effects, and smooth transitions.
+**Reasoning:**
+- Modern web design standard
+- Clear visual hierarchy
+- Touch-friendly on mobile
+- Provides visual feedback on interaction
+- Creates depth and layering
+
+### 4. **Image Structure (images/ folder)**
+**Decision:** Organized into menu/, stores/, and logo.png.
+**Reasoning:**
+- Clear separation of concerns
+- Easy to maintain and update
+- Scalable for future additions
+- Standard web project structure
 
 ---
 
