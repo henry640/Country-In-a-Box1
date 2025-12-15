@@ -225,7 +225,7 @@ function updateOrdersList(initialRender = true) {
     const ordersList = document.getElementById('orders-list');
     
     if (orders.length === 0) {
-        ordersList.innerHTML = '';
+        ordersList.innerHTML = '<div class="no-orders"><p>No orders placed yet.</p></div>';
         if (ordersUpdateInterval) {
             clearInterval(ordersUpdateInterval);
             ordersUpdateInterval = null;
@@ -295,7 +295,7 @@ function updateOrdersList(initialRender = true) {
                         </div>
                         ${canCancel ? `
                             <div class="cancel-section">
-                                <p class="time-remaining">⏱️ Cancel within: <strong class="countdown-timer" data-order-index="${index}">${minsLeft}:${secsLeft.toString().padStart(2, '0')}</strong></p>
+                                <p class="time-remaining">Cancel within: <strong class="countdown-timer" data-order-index="${index}">${minsLeft}:${secsLeft.toString().padStart(2, '0')}</strong></p>
                                 <button class="cancel-order-btn" onclick="cancelOrder(${index})">Cancel Order</button>
                             </div>
                         ` : ''}
@@ -317,13 +317,19 @@ function updateOrdersList(initialRender = true) {
             
             if (canCancel) hasActiveOrders = true;
             
+            // Auto-update status to Delivered when timer expires
+            if (secondsLeft <= 0 && order.status === 'Active') {
+                orders[index].status = 'Delivered';
+                localStorage.setItem('orders', JSON.stringify(orders));
+            }
+            
             const timerElement = document.querySelector(`.countdown-timer[data-order-index="${index}"]`);
             if (timerElement && canCancel) {
                 const minsLeft = Math.floor(secondsLeft / 60);
                 const secsLeft = secondsLeft % 60;
                 timerElement.textContent = `${minsLeft}:${secsLeft.toString().padStart(2, '0')}`;
             } else if (timerElement && !canCancel) {
-                // Time expired, need to refresh to show expired message
+                // Time expired, need to refresh to show delivered status
                 updateOrdersList(true);
                 return;
             }
@@ -484,6 +490,16 @@ window.addEventListener('load', function() {
     // Trigger initial animation
     window.dispatchEvent(new Event('scroll'));
 });
+
+// Update card animations helper function
+function updateCardAnimations() {
+    document.querySelectorAll('.food-card').forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'opacity 0.5s, transform 0.5s';
+    });
+}
+
 // Category Navigation Functions
 function showCategory(categoryName) {
     // Hide category selection
@@ -500,6 +516,12 @@ function showCategory(categoryName) {
     const selectedCategory = document.getElementById('category-' + categoryName);
     if (selectedCategory) {
         selectedCategory.style.display = 'block';
+        
+        // Reset and trigger animations for newly visible cards
+        updateCardAnimations();
+        setTimeout(() => {
+            window.dispatchEvent(new Event('scroll'));
+        }, 100);
         
         // Scroll to menu section
         document.getElementById('menu').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -519,4 +541,10 @@ function backToCategories() {
     
     // Scroll to menu section
     document.getElementById('menu').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+// Clear Order History
+function clearOrderHistory() {
+    localStorage.removeItem('orders');
+    orders = [];
+    updateOrdersList(true);
 }

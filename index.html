@@ -680,6 +680,8 @@
         </div>
     </section>
 
+    <div style="height: 40px;"></div>
+
     <!-- About Section -->
     <section id="about">
         <h2>About Us</h2>
@@ -707,7 +709,7 @@
                         </svg>
                         Our Vision
                     </h3>
-                    <p>To become the leading food delivery service in the Philippines, recognized for our diverse menu offerings and exceptional quality. We envision a future where every household can experience the richness of world cuisines, fostering cultural appreciation through food and creating memorable dining experiences.</p>
+                    <p>To become the leading restaurant in the Philippines, recognized for our diverse menu offerings and exceptional quality. We envision a future where every household can experience the richness of world cuisines, fostering cultural appreciation through food and creating memorable dining experiences.</p>
                 </div>
             </div>
             
@@ -774,7 +776,10 @@
         <div class="modal-content my-orders-modal-content">
             <div class="orders-header">
                 <h2>📋 My Orders</h2>
-                <button class="close-modal" onclick="closeMyOrders()">✖</button>
+                <div class="orders-header-actions">
+                    <button class="clear-history-btn" onclick="clearOrderHistory()">Clear History</button>
+                    <button class="close-modal" onclick="closeMyOrders()">✖</button>
+                </div>
             </div>
             <div id="orders-list" class="orders-list">
                 <!-- Orders will be displayed here -->
