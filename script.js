@@ -484,3 +484,39 @@ window.addEventListener('load', function() {
     // Trigger initial animation
     window.dispatchEvent(new Event('scroll'));
 });
+// Category Navigation Functions
+function showCategory(categoryName) {
+    // Hide category selection
+    document.getElementById('category-selection').style.display = 'none';
+    
+    // Show back button
+    document.getElementById('back-to-categories').style.display = 'block';
+    
+    // Hide all categories
+    const allCategories = document.querySelectorAll('.menu-category');
+    allCategories.forEach(cat => cat.style.display = 'none');
+    
+    // Show selected category
+    const selectedCategory = document.getElementById('category-' + categoryName);
+    if (selectedCategory) {
+        selectedCategory.style.display = 'block';
+        
+        // Scroll to menu section
+        document.getElementById('menu').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
+function backToCategories() {
+    // Show category selection
+    document.getElementById('category-selection').style.display = 'block';
+    
+    // Hide back button
+    document.getElementById('back-to-categories').style.display = 'none';
+    
+    // Hide all categories
+    const allCategories = document.querySelectorAll('.menu-category');
+    allCategories.forEach(cat => cat.style.display = 'none');
+    
+    // Scroll to menu section
+    document.getElementById('menu').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}

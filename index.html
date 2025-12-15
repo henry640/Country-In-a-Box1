@@ -5,11 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Country in a Box - Food Delivery</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="stores.css">
 </head>
 <body>
     <!-- Header -->
     <header>
-        <h1>🍱 Country in a Box</h1>
+        <img src="images/logo.png" alt="Country in a Box Logo" class="logo">
+        <h1>Country in a Box</h1>
         <p>Experience the World, One Bite at a Time!</p>
     </header>
 
@@ -17,6 +19,7 @@
     <nav>
         <a href="#home">Home</a>
         <a href="#menu">Menu</a>
+        <a href="#stores">Our Stores</a>
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
         <a href="#" class="orders-link" onclick="openMyOrders(); return false;">My Orders</a>
@@ -116,83 +119,562 @@
     <section id="menu">
         <h2>Our Menu</h2>
         
-        <div class="menu-category">
-            <h3>Filipino Favorites</h3>
+        <!-- Category Selection View -->
+        <div id="category-selection" class="category-selection">
+            <p class="menu-intro">Choose a category to explore our delicious offerings</p>
+            <div class="category-grid">
+                <div class="category-card" onclick="showCategory('featured')">
+                    <img src="images/menu/1. Breakfast Boxes.jpg" alt="Featured">
+                    <div class="category-info">
+                        <h3>Featured Selections</h3>
+                        <p>Combo boxes and popular picks</p>
+                    </div>
+                </div>
+                <div class="category-card" onclick="showCategory('filipino')">
+                    <img src="images/menu/3. Adobo.jpg" alt="Filipino">
+                    <div class="category-info">
+                        <h3>Filipino Flavors</h3>
+                        <p>Authentic Filipino dishes</p>
+                    </div>
+                </div>
+                <div class="category-card" onclick="showCategory('asian')">
+                    <img src="images/menu/1. Teriyaki Chicken.jpg" alt="Asian">
+                    <div class="category-info">
+                        <h3>Asian Flavors</h3>
+                        <p>Best of Asian cuisines</p>
+                    </div>
+                </div>
+                <div class="category-card" onclick="showCategory('american')">
+                    <img src="images/menu/1.  Burger.jpg" alt="American">
+                    <div class="category-info">
+                        <h3>American & Mediterranean</h3>
+                        <p>Western favorites</p>
+                    </div>
+                </div>
+                <div class="category-card" onclick="showCategory('european')">
+                    <img src="images/menu/1. Spaghetti.jpg" alt="European">
+                    <div class="category-info">
+                        <h3>European Flavors</h3>
+                        <p>Continental classics</p>
+                    </div>
+                </div>
+                <div class="category-card" onclick="showCategory('family')">
+                    <img src="images/menu/1. Pinoy Classic.jpg" alt="Family">
+                    <div class="category-info">
+                        <h3>Family Boxes</h3>
+                        <p>Perfect for sharing</p>
+                    </div>
+                </div>
+                <div class="category-card" onclick="showCategory('snacks')">
+                    <img src="images/menu/snacks-1. Lumpia.jpg" alt="Snacks">
+                    <div class="category-info">
+                        <h3>Snacks & Sides</h3>
+                        <p>Tasty add-ons</p>
+                    </div>
+                </div>
+                <div class="category-card" onclick="showCategory('drinks')">
+                    <img src="images/menu/drinks-2. Halo Halo.jpg" alt="Drinks">
+                    <div class="category-info">
+                        <h3>Drinks & Desserts</h3>
+                        <p>Sweet treats & beverages</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Back Button -->
+        <div id="back-to-categories" class="back-button" style="display: none;">
+            <button onclick="backToCategories()">← Back to Categories</button>
+        </div>
+        
+        <!-- Featured Selections -->
+        <div class="menu-category" id="category-featured" style="display: none;">
+            <h3> Featured Selections</h3>
             <div class="food-container">
                 <div class="food-card">
-                    <img src="Menu Source/Tapa Breakfast Box.png" alt="Tapa Breakfast Box">
+                    <img src="images/menu/1. Breakfast Boxes.jpg" alt="Breakfast Boxes">
+                    <h4>Breakfast Boxes</h4>
+                    <p>Start your day right with our hearty breakfast options</p>
+                    <p class="price">₱850</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/2. Filipino Favorites.jpg" alt="Filipino Favorites">
+                    <h4>Filipino Favorites</h4>
+                    <p>Authentic Filipino dishes that taste like home</p>
+                    <p class="price">₱950</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/3. International Flavors.jpg" alt="International Flavors">
+                    <h4>International Flavors</h4>
+                    <p>Experience cuisines from around the world</p>
+                    <p class="price">₱1,100</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/4. Family Boxes.jpg" alt="Family Boxes">
+                    <h4>Family Boxes</h4>
+                    <p>Perfect meals for sharing with loved ones</p>
+                    <p class="price">₱1,350</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/5. Snacks and Sides.jpg" alt="Snacks and Sides">
+                    <h4>Snacks & Sides</h4>
+                    <p>Delicious add-ons to complete your meal</p>
+                    <p class="price">₱900</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/6. Drinks and Desserts.jpg" alt="Drinks and Desserts">
+                    <h4>Drinks & Desserts</h4>
+                    <p>Sweet treats and refreshing beverages</p>
+                    <p class="price">₱800</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Filipino Flavors -->
+        <div class="menu-category" id="category-filipino" style="display: none;">
+            <h3>Filipino Flavors</h3>
+            <div class="food-container">
+                <div class="food-card">
+                    <img src="images/menu/1. Tapa Breakfast Box.jpg" alt="Tapa Breakfast Box">
                     <h4>Tapa Breakfast Box</h4>
-                    <p>Classic Filipino breakfast</p>
+                    <p>Classic Filipino breakfast with garlic rice</p>
                     <p class="price">₱150</p>
                     <button class="add-btn">Add to Cart</button>
                 </div>
                 <div class="food-card">
-                    <img src="Menu Source/Chicken Adobo Bowl.png" alt="Chicken Adobo Bowl">
+                    <img src="images/menu/2. Tocino.jpg" alt="Tocino">
+                    <h4>Tocino Breakfast Box</h4>
+                    <p>Sweet and savory Filipino style</p>
+                    <p class="price">₱145</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/3. Adobo.jpg" alt="Chicken Adobo">
                     <h4>Chicken Adobo Bowl</h4>
-                    <p>Traditional Filipino dish</p>
+                    <p>Traditional Filipino favorite</p>
                     <p class="price">₱160</p>
                     <button class="add-btn">Add to Cart</button>
                 </div>
                 <div class="food-card">
-                    <img src="Menu Source/Pork Sisig Rice Box.png" alt="Pork Sisig Rice Box">
+                    <img src="images/menu/4. Sisig.jpg" alt="Pork Sisig">
                     <h4>Pork Sisig Rice Box</h4>
-                    <p>Savory and delicious</p>
+                    <p>Savory and sizzling goodness</p>
                     <p class="price">₱165</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/5. Sinigang.jpg" alt="Sinigang">
+                    <h4>Sinigang Bowl</h4>
+                    <p>Tangy and hearty soup</p>
+                    <p class="price">₱155</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/6. Caldereta.jpg" alt="Caldereta">
+                    <h4>Caldereta Box</h4>
+                    <p>Rich and flavorful stew</p>
+                    <p class="price">₱170</p>
                     <button class="add-btn">Add to Cart</button>
                 </div>
             </div>
         </div>
 
-        <div class="menu-category">
-            <h3>Asian Flavors</h3>
+        <!-- Asian Flavors -->
+        <div class="menu-category" id="category-asian" style="display: none;">
+            <h3> Asian Flavors</h3>
             <div class="food-container">
                 <div class="food-card">
-                    <img src="Menu Source/Teriyaki Ckn Bento.png" alt="Teriyaki Chicken Bento">
+                    <img src="images/menu/1. Teriyaki Chicken.jpg" alt="Teriyaki Chicken">
                     <h4>Teriyaki Chicken Bento</h4>
-                    <p>From Japan</p>
+                    <p>Japanese style glazed chicken</p>
                     <p class="price">₱180</p>
                     <button class="add-btn">Add to Cart</button>
                 </div>
                 <div class="food-card">
-                    <img src="Menu Source/Beef Bulgogi Bowl.png" alt="Beef Bulgogi Bowl">
+                    <img src="images/menu/2. Bulgogi.jpg" alt="Beef Bulgogi">
                     <h4>Beef Bulgogi Bowl</h4>
-                    <p>From Korea</p>
+                    <p>Korean marinated beef</p>
                     <p class="price">₱195</p>
                     <button class="add-btn">Add to Cart</button>
                 </div>
                 <div class="food-card">
-                    <img src="Menu Source/Pad Thai Box.png" alt="Pad Thai Box">
+                    <img src="images/menu/3. Stir-Fry.jpg" alt="Stir-Fry">
+                    <h4>Asian Stir-Fry Box</h4>
+                    <p>Mixed vegetables and protein</p>
+                    <p class="price">₱175</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/4. Pad Thai.jpg" alt="Pad Thai">
                     <h4>Pad Thai Box</h4>
-                    <p>From Thailand</p>
+                    <p>Thai street food classic</p>
                     <p class="price">₱185</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/5. Sweet Soy.jpg" alt="Sweet Soy Chicken">
+                    <h4>Sweet Soy Chicken</h4>
+                    <p>Indonesian-inspired flavor</p>
+                    <p class="price">₱170</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/6. Chicken Curry.jpg" alt="Chicken Curry">
+                    <h4>Chicken Curry Box</h4>
+                    <p>Creamy and spiced perfection</p>
+                    <p class="price">₱175</p>
                     <button class="add-btn">Add to Cart</button>
                 </div>
             </div>
         </div>
 
-        <div class="menu-category">
-            <h3>Desserts</h3>
+        <!-- American & Mediterranean -->
+        <div class="menu-category" id="category-american" style="display: none;">
+            <h3> American & Mediterranean</h3>
             <div class="food-container">
                 <div class="food-card">
-                    <img src="Menu Source/Halo Halo.png" alt="Halo-Halo">
-                    <h4>Halo-Halo</h4>
-                    <p>Filipino sweet treat</p>
-                    <p class="price">₱80</p>
+                    <img src="images/menu/1.  Burger.jpg" alt="Burger">
+                    <h4>Classic Burger Box</h4>
+                    <p>American all-time favorite</p>
+                    <p class="price">₱190</p>
                     <button class="add-btn">Add to Cart</button>
                 </div>
                 <div class="food-card">
-                    <img src="Menu Source/Leche Flan.png" alt="Leche Flan">
-                    <h4>Leche Flan</h4>
-                    <p>Smooth and creamy</p>
+                    <img src="images/menu/2. Chili Con.jpg" alt="Chili Con Carne">
+                    <h4>Chili Con Carne</h4>
+                    <p>Hearty and spicy stew</p>
+                    <p class="price">₱165</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/3. Beef Kebab.jpg" alt="Beef Kebab">
+                    <h4>Beef Kebab Box</h4>
+                    <p>Mediterranean grilled goodness</p>
+                    <p class="price">₱195</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/4. BBQ.jpg" alt="BBQ">
+                    <h4>BBQ Platter</h4>
+                    <p>Smoky and tender</p>
+                    <p class="price">₱185</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/6. Biryani.jpg" alt="Biryani">
+                    <h4>Chicken Biryani</h4>
+                    <p>Aromatic rice and spices</p>
+                    <p class="price">₱175</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/6. Garlic Beef.jpg" alt="Garlic Beef">
+                    <h4>Garlic Beef Box</h4>
+                    <p>Rich and flavorful</p>
+                    <p class="price">₱180</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- European Flavors -->
+        <div class="menu-category" id="category-european" style="display: none;">
+            <h3> European Flavors</h3>
+            <div class="food-container">
+                <div class="food-card">
+                    <img src="images/menu/1. Spaghetti.jpg" alt="Spaghetti">
+                    <h4>Spaghetti Bolognese</h4>
+                    <p>Classic Italian pasta with meat sauce</p>
+                    <p class="price">₱175</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/2. Garlic Chicken.jpg" alt="Garlic Chicken">
+                    <h4>Garlic Chicken Box</h4>
+                    <p>European-style garlic roasted chicken</p>
+                    <p class="price">₱185</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/3. Fish and Chips.jpg" alt="Fish and Chips">
+                    <h4>Fish and Chips</h4>
+                    <p>British classic with crispy batter</p>
+                    <p class="price">₱195</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/4. Cheesy Sausage.jpg" alt="Cheesy Sausage">
+                    <h4>Cheesy Sausage Box</h4>
+                    <p>German-inspired sausages with cheese</p>
+                    <p class="price">₱180</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/5. Paella.jpg" alt="Paella">
+                    <h4>Seafood Paella</h4>
+                    <p>Spanish rice dish with seafood</p>
+                    <p class="price">₱210</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/6. Gyro Wrap.jpg" alt="Gyro Wrap">
+                    <h4>Greek Gyro Wrap</h4>
+                    <p>Mediterranean wrap with tzatziki</p>
+                    <p class="price">₱190</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Family Boxes -->
+        <div class="menu-category" id="category-family" style="display: none;">
+            <h3> Family Boxes</h3>
+            <div class="food-container">
+                <div class="food-card">
+                    <img src="images/menu/1. Pinoy Classic.jpg" alt="Pinoy Classic Box">
+                    <h4>Pinoy Classic Family Box</h4>
+                    <p>Filipino favorites for the family</p>
+                    <p class="price">₱450</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/2. Asian Favorites.jpg" alt="Asian Favorites">
+                    <h4>Asian Favorites Family Box</h4>
+                    <p>Best of Asian cuisines</p>
+                    <p class="price">₱480</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/3. European.jpg" alt="European Box">
+                    <h4>European Family Box</h4>
+                    <p>Continental delights</p>
+                    <p class="price">₱490</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/4. America_s Box.jpg" alt="America's Box">
+                    <h4>America's Family Box</h4>
+                    <p>American comfort food</p>
+                    <p class="price">₱495</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/5. Ultimate Country.jpg" alt="Ultimate Country Box">
+                    <h4>Ultimate Country Box</h4>
+                    <p>The best from around the world</p>
+                    <p class="price">₱550</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Snacks & Sides -->
+        <div class="menu-category" id="category-snacks" style="display: none;">
+            <h3> Snacks & Sides</h3>
+            <div class="food-container">
+                <div class="food-card">
+                    <img src="images/menu/snacks-1. Lumpia.jpg" alt="Lumpia">
+                    <h4>Filipino Lumpia</h4>
+                    <p>Crispy spring rolls with sweet chili sauce</p>
+                    <p class="price">₱85</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/snacks-2. Pancit.jpg" alt="Pancit">
+                    <h4>Pancit Canton</h4>
+                    <p>Filipino stir-fried noodles</p>
+                    <p class="price">₱90</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/snacks-4. Turon.jpg" alt="Turon">
+                    <h4>Turon</h4>
+                    <p>Fried banana spring rolls</p>
+                    <p class="price">₱75</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/snacks-1. Gyoza.jpg" alt="Gyoza">
+                    <h4>Japanese Gyoza</h4>
+                    <p>Pan-fried dumplings</p>
+                    <p class="price">₱95</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/snacks-3. Thai Chicken Bites.jpg" alt="Thai Chicken Bites">
+                    <h4>Thai Chicken Bites</h4>
+                    <p>Crispy chicken with Thai sauce</p>
+                    <p class="price">₱100</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/snacks-2.  Korean Fishcake.jpg" alt="Korean Fishcake">
+                    <h4>Korean Fishcake</h4>
+                    <p>Savory fish cake skewers</p>
+                    <p class="price">₱85</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/snacks-1. French Fries.jpg" alt="French Fries">
+                    <h4>French Fries</h4>
+                    <p>Crispy golden fries</p>
                     <p class="price">₱70</p>
                     <button class="add-btn">Add to Cart</button>
                 </div>
                 <div class="food-card">
-                    <img src="Menu Source/Mango Float.png" alt="Mango Float">
-                    <h4>Mango Float</h4>
-                    <p>Sweet and refreshing</p>
+                    <img src="images/menu/snacks-2. Mozzarella.jpg" alt="Mozzarella Sticks">
+                    <h4>Mozzarella Sticks</h4>
+                    <p>Breaded cheese sticks</p>
+                    <p class="price">₱95</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/snacks-3. Garlic Bread.jpg" alt="Garlic Bread">
+                    <h4>Garlic Bread</h4>
+                    <p>Toasted bread with garlic butter</p>
+                    <p class="price">₱65</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Drinks & Desserts -->
+        <div class="menu-category" id="category-drinks" style="display: none;">
+            <h3> Drinks & Desserts</h3>
+            <div class="food-container">
+                <div class="food-card">
+                    <img src="images/menu/drinks-1. Iced Tea.jpg" alt="Iced Tea">
+                    <h4>Classic Iced Tea</h4>
+                    <p>Refreshing cold brewed tea</p>
+                    <p class="price">₱50</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/drinks-2. Calamansi.jpg" alt="Calamansi Juice">
+                    <h4>Calamansi Juice</h4>
+                    <p>Filipino citrus refreshment</p>
+                    <p class="price">₱55</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/drinks-1. Thai Milk Tea.jpg" alt="Thai Milk Tea">
+                    <h4>Thai Milk Tea</h4>
+                    <p>Sweet and creamy Thai tea</p>
                     <p class="price">₱75</p>
                     <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/drinks-4. Milk Tea.jpg" alt="Milk Tea">
+                    <h4>Classic Milk Tea</h4>
+                    <p>Smooth and sweet milk tea</p>
+                    <p class="price">₱70</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/drinks-3. Matcha.jpg" alt="Matcha Latte">
+                    <h4>Matcha Latte</h4>
+                    <p>Japanese green tea latte</p>
+                    <p class="price">₱85</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/drinks-5. Iced Mocha.jpg" alt="Iced Mocha">
+                    <h4>Iced Mocha</h4>
+                    <p>Cold coffee with chocolate</p>
+                    <p class="price">₱90</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/drinks-2. Halo Halo.jpg" alt="Halo-Halo">
+                    <h4>Halo-Halo</h4>
+                    <p>Filipino shaved ice dessert</p>
+                    <p class="price">₱95</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/drinks-1. Leche Flan.jpg" alt="Leche Flan">
+                    <h4>Leche Flan</h4>
+                    <p>Filipino caramel custard</p>
+                    <p class="price">₱80</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/drinks-3. Buko Pandan.jpg" alt="Buko Pandan">
+                    <h4>Buko Pandan</h4>
+                    <p>Coconut and pandan dessert</p>
+                    <p class="price">₱85</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/drinks-2. Mango Sticky Rice.jpg" alt="Mango Sticky Rice">
+                    <h4>Mango Sticky Rice</h4>
+                    <p>Thai sweet rice with mango</p>
+                    <p class="price">₱100</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/drinks-1. Mochi.jpg" alt="Mochi">
+                    <h4>Japanese Mochi</h4>
+                    <p>Soft rice cake dessert</p>
+                    <p class="price">₱75</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+                <div class="food-card">
+                    <img src="images/menu/drinks-3. Cheesecake.jpg" alt="Cheesecake">
+                    <h4>Cheesecake Slice</h4>
+                    <p>Creamy New York style</p>
+                    <p class="price">₱110</p>
+                    <button class="add-btn">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Physical Stores Section -->
+    <section id="stores">
+        <h2>Visit Our Physical Stores</h2>
+        <p class="stores-intro">Experience Country in a Box in person! Visit any of our locations.</p>
+        <div class="stores-container">
+            <div class="store-card">
+                <img src="images/stores/Manila Branch.jpg" alt="Manila Branch">
+                <div class="store-info">
+                    <h3>Manila Branch</h3>
+                    <p>📍 123 Rizal Avenue, Manila City</p>
+                    <p>📞 (02) 8123-4567</p>
+                    <p>🕐 Mon-Sun: 10:00 AM - 9:00 PM</p>
+                </div>
+            </div>
+            <div class="store-card">
+                <img src="images/stores/1764052099371.jpg" alt="Quezon City Branch">
+                <div class="store-info">
+                    <h3>Quezon City Branch</h3>
+                    <p>📍 456 Commonwealth Avenue, QC</p>
+                    <p>📞 (02) 8234-5678</p>
+                    <p>🕐 Mon-Sun: 10:00 AM - 10:00 PM</p>
+                </div>
+            </div>
+            <div class="store-card">
+                <img src="images/stores/1764052241289.jpg" alt="Makati Branch">
+                <div class="store-info">
+                    <h3>Makati Branch</h3>
+                    <p>📍 789 Ayala Avenue, Makati City</p>
+                    <p>📞 (02) 8345-6789</p>
+                    <p>🕐 Mon-Sun: 11:00 AM - 10:00 PM</p>
+                </div>
+            </div>
+            <div class="store-card">
+                <img src="images/stores/1764052973034.jpg" alt="BGC Branch">
+                <div class="store-info">
+                    <h3>BGC Branch</h3>
+                    <p>📍 321 Bonifacio High Street, Taguig</p>
+                    <p>📞 (02) 8456-7890</p>
+                    <p>🕐 Mon-Sun: 11:00 AM - 11:00 PM</p>
                 </div>
             </div>
         </div>
@@ -205,17 +687,41 @@
             <p>Country in a Box was born from a simple idea: travel the world through food without leaving your home!</p>
             <p>We bring authentic flavors from around the world straight to your table.</p>
             
+            <div class="mission-vision">
+                <div class="mission-box">
+                    <h3>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 8px;">
+                            <circle cx="12" cy="12" r="10"/>
+                            <circle cx="12" cy="12" r="6"/>
+                            <circle cx="12" cy="12" r="2"/>
+                        </svg>
+                        Our Mission
+                    </h3>
+                    <p>To deliver authentic international cuisines with uncompromising quality, bringing the world's flavors to every Filipino home. We are committed to excellence in taste, service, and customer satisfaction, making global gastronomy accessible and affordable for everyone.</p>
+                </div>
+                <div class="vision-box">
+                    <h3>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 8px;">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                        Our Vision
+                    </h3>
+                    <p>To become the leading food delivery service in the Philippines, recognized for our diverse menu offerings and exceptional quality. We envision a future where every household can experience the richness of world cuisines, fostering cultural appreciation through food and creating memorable dining experiences.</p>
+                </div>
+            </div>
+            
             <div class="stats">
                 <div class="stat-box">
                     <h3>10,000+</h3>
                     <p>Happy Customers</p>
                 </div>
                 <div class="stat-box">
-                    <h3>63</h3>
+                    <h3>56</h3>
                     <p>Signature Dishes</p>
                 </div>
                 <div class="stat-box">
-                    <h3>8</h3>
+                    <h3>12</h3>
                     <p>Countries</p>
                 </div>
             </div>
@@ -280,7 +786,6 @@
     <div id="cancel-confirm-modal" class="modal">
         <div class="modal-content">
             <div class="confirmation">
-                <div class="confirmation-icon warning-icon">⚠️</div>
                 <h2>Cancel Order?</h2>
                 <p class="confirmation-message" id="cancel-order-text">Are you sure you want to cancel this order?</p>
                 <div class="modal-actions">

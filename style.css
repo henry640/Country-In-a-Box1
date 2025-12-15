@@ -23,6 +23,13 @@ header {
     padding: 40px 20px;
 }
 
+header .logo {
+    width: 120px;
+    height: auto;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+}
+
 header h1 {
     font-size: 2.5em;
     margin-bottom: 10px;
@@ -491,6 +498,8 @@ section h2 {
     text-align: center;
     transition: transform 0.3s, box-shadow 0.3s;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 .food-card:hover {
@@ -521,6 +530,7 @@ section h2 {
     font-size: 1.3em;
     font-weight: bold;
     margin: 15px 10px;
+    margin-top: auto;
 }
 
 .add-btn {
@@ -545,8 +555,31 @@ section h2 {
 }
 
 /* About Section */
+#about {
+    padding: 60px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: white;
+}
+
+#about h2 {
+    text-align: center;
+    color: #ff6b6b;
+    margin-bottom: 20px;
+    font-size: 2.5em;
+    font-weight: 700;
+}
+
 .about-content {
     text-align: center;
+}
+
+.about-content > p {
+    font-size: 1.15em;
+    color: #555;
+    line-height: 1.8;
+    margin: 15px auto;
+    max-width: 900px;
 }
 
 .about-content p {
@@ -556,30 +589,75 @@ section h2 {
 }
 
 .stats {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 40px;
-    flex-wrap: wrap;
-    gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    margin-top: 50px;
+    gap: 25px;
+    padding: 0;
 }
 
 .stat-box {
-    background-color: #ff6b6b;
-    color: white;
-    padding: 30px;
+    background: white;
+    padding: 40px 30px;
     border-radius: 10px;
-    flex: 1;
-    min-width: 200px;
     text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border-top: 4px solid #ff6b6b;
+}
+
+.stat-box:nth-child(2) {
+    border-top-color: #4CAF50;
+}
+
+.stat-box:nth-child(3) {
+    border-top-color: #2196F3;
 }
 
 .stat-box h3 {
-    font-size: 2.5em;
-    margin-bottom: 10px;
+    font-size: 3.5em;
+    margin: 0 0 15px 0;
+    font-weight: 700;
+    color: #333;
+}
+
+.stat-box:nth-child(1) h3 {
+    color: #ff6b6b;
+}
+
+.stat-box:nth-child(2) h3 {
+    color: #4CAF50;
+}
+
+.stat-box:nth-child(3) h3 {
+    color: #2196F3;
 }
 
 .stat-box p {
-    font-size: 1.1em;
+    font-size: 1.05em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #666;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .stats {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .stat-box {
+        padding: 35px 25px;
+    }
+    
+    .stat-box h3 {
+        font-size: 3em;
+    }
+    
+    .stat-box p {
+        font-size: 0.95em;
+    }
 }
 
 /* Contact Section */
@@ -977,5 +1055,216 @@ footer p {
     
     .cancel-order-btn {
         width: 100%;
+    }
+}
+
+/* Physical Stores Section */
+#stores {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: white;
+}
+
+#stores h2 {
+    text-align: center;
+    color: #ff6b6b;
+    margin-bottom: 10px;
+    font-size: 2em;
+}
+
+.stores-intro {
+    text-align: center;
+    color: #666;
+    margin-bottom: 40px;
+    font-size: 1.1em;
+}
+
+.stores-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.store-card {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.store-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+}
+
+.store-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.store-info {
+    padding: 20px;
+}
+
+.store-info h3 {
+    color: #ff6b6b;
+    margin-bottom: 15px;
+    font-size: 1.4em;
+}
+
+.store-info p {
+    color: #666;
+    margin: 8px 0;
+    font-size: 0.95em;
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .stores-container {
+        grid-template-columns: 1fr;
+    }
+    
+    #stores h2 {
+        font-size: 1.6em;
+    }
+}
+/* Category Selection Styles */
+.category-selection {
+    padding: 30px 0 50px 0;
+}
+
+.menu-intro {
+    text-align: center;
+    color: #555;
+    font-size: 1.15em;
+    margin-bottom: 40px;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin: 0 auto;
+    max-width: 1300px;
+    padding: 0 20px;
+}
+
+.category-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.category-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255,107,107,0.05) 0%, rgba(255,107,107,0) 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.category-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(255,107,107,0.15);
+}
+
+.category-card:hover::before {
+    opacity: 1;
+}
+
+.category-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.category-card:hover img {
+    transform: scale(1.05);
+}
+
+.category-info {
+    padding: 25px 20px;
+    text-align: center;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.95), white);
+}
+
+.category-info h3 {
+    color: #ff6b6b;
+    margin-bottom: 8px;
+    font-size: 1.4em;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    transition: color 0.3s ease;
+}
+
+.category-card:hover .category-info h3 {
+    color: #ff5252;
+}
+
+.category-info p {
+    color: #777;
+    font-size: 0.95em;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.back-button {
+    text-align: center;
+    margin: 30px 0 40px 0;
+}
+
+.back-button button {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ff5252 100%);
+    color: white;
+    border: none;
+    padding: 14px 35px;
+    font-size: 1.05em;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(255,107,107,0.25);
+    letter-spacing: 0.3px;
+}
+
+.back-button button:hover {
+    background: linear-gradient(135deg, #ff5252 0%, #ff3838 100%);
+    box-shadow: 0 6px 15px rgba(255,107,107,0.35);
+    transform: translateY(-2px);
+}
+
+.back-button button:active {
+    transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+    .category-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        padding: 0 15px;
+    }
+    
+    .category-card img {
+        height: 200px;
+    }
+    
+    .menu-intro {
+        font-size: 1.05em;
+        padding: 0 15px;
     }
 }
